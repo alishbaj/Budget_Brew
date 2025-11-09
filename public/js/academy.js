@@ -253,18 +253,81 @@ function startQuiz() {
 }
 
 function askAITutor() {
-    const question = document.getElementById('aiTutorQuestion').value;
-    if (!question.trim()) {
+    const question = document.getElementById('aiTutorQuestion').value.trim();
+    const responseDiv = document.getElementById('aiTutorResponse');
+    const answerDiv = document.getElementById('aiTutorAnswer');
+    
+    if (!question) {
         alert('Please enter a question');
         return;
     }
     
-    const responseDiv = document.getElementById('aiTutorResponse');
-    const answerDiv = document.getElementById('aiTutorAnswer');
+    // Check if question contains "budget" (case-insensitive)
+    const questionLower = question.toLowerCase();
+    if (!questionLower.includes('budget')) {
+        // Hide response if "budget" is not in the question
+        responseDiv.style.display = 'none';
+        return;
+    }
     
-    // Simulate AI response (in real app, this would call an AI API)
-    answerDiv.textContent = `Great question! "${question}"\n\nHere's a simplified explanation:\n\nThis is a demo response. In the full version, this would use AI (like Gemini) to provide personalized explanations based on your financial knowledge level. The AI tutor can explain complex financial concepts in simple terms and adapt to your learning style.`;
-    
+    // Show response container
     responseDiv.style.display = 'block';
+    
+    // Clear previous response
+    answerDiv.innerHTML = '';
+    
+    // Budget explanation text
+    const budgetExplanation = `A budget is a financial plan that helps you track and manage your money. Think of it as a roadmap for your finances!
+
+Here's what you need to know:
+
+✦ What is a budget?
+A budget is a plan that shows how much money you have coming in (income) and how much you plan to spend (expenses) over a specific period, usually monthly.
+
+◈ Why is budgeting important?
+• Helps you control your spending
+• Ensures you have enough money for things you need
+• Helps you save for goals and emergencies
+• Prevents overspending and debt
+• Gives you peace of mind about your finances
+
+◊ How to create a budget:
+1. Calculate your total monthly income
+2. List all your expenses (rent, food, utilities, etc.)
+3. Categorize expenses into needs vs. wants
+4. Set spending limits for each category
+5. Track your spending regularly
+6. Adjust as needed
+
+◉ Popular budgeting methods:
+• 50/30/20 Rule: 50% needs, 30% wants, 20% savings
+• Zero-Based Budget: Every dollar has a purpose
+• Envelope Method: Allocate cash to different categories
+
+Remember, a budget isn't about restricting yourself—it's about making your money work for you and achieving your financial goals! ✦`;
+
+    // Type out the response character by character to simulate AI generation
+    typeText(answerDiv, budgetExplanation);
+}
+
+function typeText(element, text) {
+    element.innerHTML = '<span class="typing-cursor">|</span>';
+    let index = 0;
+    
+    const typingInterval = setInterval(() => {
+        if (index < text.length) {
+            // Replace the cursor with text + cursor
+            const currentText = text.substring(0, index + 1);
+            element.innerHTML = currentText.replace(/\n/g, '<br>') + '<span class="typing-cursor">|</span>';
+            index++;
+            
+            // Scroll to bottom to follow the text
+            element.scrollTop = element.scrollHeight;
+        } else {
+            // Remove cursor when done
+            element.innerHTML = text.replace(/\n/g, '<br>');
+            clearInterval(typingInterval);
+        }
+    }, 15); // Faster typing speed (lower = faster)
 }
 
