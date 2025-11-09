@@ -23,14 +23,14 @@ function initializeFirebase() {
             });
             
             firebaseInitialized = true;
-            console.log('✅ Firebase Admin SDK initialized successfully');
+            console.log('Firebase Admin SDK initialized successfully');
         } else {
-            console.warn('⚠️  Firebase Admin key not found. Authentication will be disabled.');
+            console.warn('   Firebase Admin key not found. Authentication will be disabled.');
             console.warn('   To enable: Download service account key from Firebase Console');
             console.warn('   and save as firebase-admin-key.json in project root');
         }
     } catch (error) {
-        console.error('❌ Error initializing Firebase Admin:', error.message);
+        console.error('  Error initializing Firebase Admin:', error.message);
         console.warn('   Authentication will be disabled');
     }
 }
